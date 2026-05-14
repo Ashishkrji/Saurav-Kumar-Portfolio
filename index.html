@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saurav Kumar | MBA Student & Finance/Marketing Specialist</title>
+    <meta name="description"
+        content="Personal portfolio of Saurav Kumar, MBA student specializing in Finance and Marketing. Skilled in financial analysis, market research, consumer behavior, and strategic thinking.">
+    <meta name="author" content="Saurav Kumar">
+    <meta name="keywords"
+        content="Saurav Kumar, MBA, Finance, Marketing, Begusarai, CT Group of Institutions, Portfolio, Financial Analysis, Market Research">
+
+    <!-- Favicon / Monogram -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230f766e'/><text x='50' y='65' font-size='40' font-family='Inter, sans-serif' font-weight='bold' fill='white' text-anchor='middle'>SK</text></svg>">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        teal: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        ::selection {
+            background-color: #0f766e;
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-900 font-sans antialiased overflow-x-hidden selection:bg-teal-700 selection:text-white"
+    x-data="{
+          scrolled: false,
+          mobileMenuOpen: false,
+          activeSection: 'hero',
+          init() {
+              window.addEventListener('scroll', () => {
+                  this.scrolled = window.scrollY > 20;
+              });
+
+              // Intersection Observer for highlighting active nav links
+              const sections = document.querySelectorAll('section[id]');
+              const observer = new IntersectionObserver((entries) => {
+                  entries.forEach(entry => {
+                      if (entry.isIntersecting) {
+                          this.activeSection = entry.target.id;
+                      }
+                  });
+              }, { threshold: 0.25, rootMargin: '-100px 0px -100px 0px' });
+
+              sections.forEach(section => observer.observe(section));
+          }
+      }">
+
+    <!-- Sticky Navbar -->
+    <header :class="scrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-3.5' : 'bg-transparent py-6'"
+        class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#hero" class="flex items-center gap-2.5 group">
+                <div
+                    class="w-10 h-10 rounded-full bg-teal-700 text-white flex items-center justify-center font-extrabold text-lg tracking-wider shadow-md group-hover:scale-105 transition-transform duration-200">
+                    SK
+                </div>
+                <span
+                    class="font-extrabold text-xl tracking-tight text-gray-900 group-hover:text-teal-700 transition-colors">Saurav
+                    Kumar</span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#services"
+                    :class="activeSection === 'services' ? 'text-teal-700 font-semibold' : 'text-gray-600 hover:text-teal-700'"
+                    class="text-sm font-medium transition-colors duration-200">Services</a>
+                <a href="#education"
+                    :class="activeSection === 'education' ? 'text-teal-700 font-semibold' : 'text-gray-600 hover:text-teal-700'"
+                    class="text-sm font-medium transition-colors duration-200">Education</a>
+                <a href="#experience"
+                    :class="activeSection === 'experience' ? 'text-teal-700 font-semibold' : 'text-gray-600 hover:text-teal-700'"
+                    class="text-sm font-medium transition-colors duration-200">Experience</a>
+                <a href="#projects"
+                    :class="activeSection === 'projects' ? 'text-teal-700 font-semibold' : 'text-gray-600 hover:text-teal-700'"
+                    class="text-sm font-medium transition-colors duration-200">Projects</a>
+                <a href="#skills"
+                    :class="activeSection === 'skills' ? 'text-teal-700 font-semibold' : 'text-gray-600 hover:text-teal-700'"
+                    class="text-sm font-medium transition-colors duration-200">Skills</a>
+                <a href="#contact"
+                    :class="activeSection === 'contact' ? 'text-teal-700 font-semibold' : 'text-gray-600 hover:text-teal-700'"
+                    class="text-sm font-medium transition-colors duration-200">Contact</a>
+            </nav>
+
+            <!-- CTA Button -->
+            <div class="hidden md:block">
+                <a href="#contact"
+                    class="inline-flex items-center gap-2 bg-teal-700 hover:bg-teal-800 text-white font-medium text-sm px-5 py-2.5 rounded-full shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5">
+                    <span>Hire Me</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Toggle Menu"
+                class="md:hidden flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-teal-700 hover:bg-gray-100 transition-colors focus:outline-none">
+                <i :class="mobileMenuOpen ? 'fa-xmark text-2xl' : 'fa-bars text-xl'"
+                    class="fa-solid w-6 h-6 flex items-center justify-center transition-transform duration-200"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu (Alpine.js x-show) -->
+        <div x-show="mobileMenuOpen" x-cloak x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translateY-0"
+            x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translateY-0"
+            x-transition:leave-end="opacity-0 -translate-y-4"
+            class="md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-xl py-4 px-6 flex flex-col gap-4">
+            <a href="#services" @click="mobileMenuOpen = false"
+                class="text-gray-800 hover:text-teal-700 font-medium py-1.5 transition-colors flex items-center justify-between">
+                <span>Services</span>
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+            </a>
+            <a href="#education" @click="mobileMenuOpen = false"
+                class="text-gray-800 hover:text-teal-700 font-medium py-1.5 transition-colors flex items-center justify-between">
+                <span>Education</span>
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+            </a>
+            <a href="#experience" @click="mobileMenuOpen = false"
+                class="text-gray-800 hover:text-teal-700 font-medium py-1.5 transition-colors flex items-center justify-between">
+                <span>Experience</span>
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+            </a>
+            <a href="#projects" @click="mobileMenuOpen = false"
+                class="text-gray-800 hover:text-teal-700 font-medium py-1.5 transition-colors flex items-center justify-between">
+                <span>Projects</span>
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+            </a>
+            <a href="#skills" @click="mobileMenuOpen = false"
+                class="text-gray-800 hover:text-teal-700 font-medium py-1.5 transition-colors flex items-center justify-between">
+                <span>Skills</span>
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+            </a>
+            <a href="#contact" @click="mobileMenuOpen = false"
+                class="text-gray-800 hover:text-teal-700 font-medium py-1.5 transition-colors flex items-center justify-between">
+                <span>Contact</span>
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+            </a>
+            <div class="pt-2">
+                <a href="#contact" @click="mobileMenuOpen = false"
+                    class="w-full inline-flex items-center justify-center gap-2 bg-teal-700 hover:bg-teal-800 text-white font-medium text-base px-5 py-3 rounded-xl shadow-sm">
+                    <span>Hire Me</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1 — HERO -->
+    <section id="hero" class="pt-32 pb-20 md:pt-44 md:pb-32 bg-gray-50/50 relative overflow-hidden animate-fade-in">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Left Column -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left order-2 lg:order-1">
+                    <!-- Open to Opportunities Badge -->
+                    <div
+                        class="inline-flex items-center gap-2.5 px-4 py-2 bg-teal-50 border border-teal-200/80 rounded-full text-teal-800 text-xs font-semibold tracking-wide shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-teal-600 animate-pulse"></span>
+                        <span>Open to Opportunities</span>
+                    </div>
+
+                    <!-- Heading -->
+                    <h1
+                        class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.1]">
+                        Hi, I'm <span
+                            class="text-teal-700 bg-gradient-to-r from-teal-700 to-teal-500 bg-clip-text text-transparent">Saurav</span>
+                    </h1>
+
+                    <!-- Subheading -->
+                    <p class="text-lg sm:text-xl text-gray-600 font-normal leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        Motivated MBA student specializing in <span class="font-semibold text-gray-900">Finance and
+                            Marketing</span>. Passionate about financial analysis, market research, consumer behavior,
+                        and strategic thinking.
+                    </p>
+
+                    <!-- Buttons -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#experience"
+                            class="inline-flex items-center gap-2 bg-teal-700 hover:bg-teal-800 text-white font-medium text-base px-7 py-3.5 rounded-full shadow-lg hover:shadow-teal-700/25 transition-all duration-300 hover:-translate-y-1">
+                            <span>View My Work</span>
+                            <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </a>
+                        <a href="#contact"
+                            class="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-800 border-2 border-gray-200 hover:border-teal-700/40 font-medium text-base px-7 py-3.5 rounded-full shadow-sm transition-all duration-300 hover:-translate-y-1">
+                            <span>Get in touch</span>
+                        </a>
+                    </div>
+
+                    <!-- Animated Stat Counters -->
+                    <div class="grid grid-cols-3 gap-4 sm:gap-8 pt-8 border-t border-gray-200/80 max-w-lg mx-auto lg:mx-0"
+                        x-data="{
+                            count1: 0, count2: 0, count3: 0,
+                            started: false,
+                            startAnimation() {
+                                if(this.started) return;
+                                this.started = true;
+                                let i1 = setInterval(() => { if(this.count1 < 3) this.count1++; else clearInterval(i1); }, 250);
+                                let i2 = setInterval(() => { if(this.count2 < 2) this.count2++; else clearInterval(i2); }, 350);
+                                let i3 = setInterval(() => { if(this.count3 < 5) this.count3++; else clearInterval(i3); }, 150);
+                            }
+                        }"
+                        x-init="
+                            const statObserver = new IntersectionObserver(entries => {
+                                if(entries[0].isIntersecting) startAnimation();
+                            }, { threshold: 0.5 });
+                            statObserver.observe($el);
+                        ">
+                        <div class="text-center lg:text-left">
+                            <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight"><span x-text="count1">0</span>+</div>
+                            <div class="text-xs sm:text-sm font-medium text-gray-500 mt-1 uppercase tracking-wider">
+                                Certifications</div>
+                        </div>
+                        <div class="text-center lg:text-left border-x border-gray-200/80 px-4 sm:px-6">
+                            <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight"><span x-text="count2">0</span></div>
+                            <div class="text-xs sm:text-sm font-medium text-gray-500 mt-1 uppercase tracking-wider">
+                                Experiences</div>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight"><span x-text="count3">0</span>+ yrs</div>
+                            <div class="text-xs sm:text-sm font-medium text-gray-500 mt-1 uppercase tracking-wider">
+                                Education Journey</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column (Profile Photo) -->
+                <div class="lg:col-span-5 flex justify-center items-center order-1 lg:order-2">
+                    <div class="relative inline-block" x-data="{ imgError: false }">
+                        <!-- Profile Image -->
+                        <img src="profile.jpg" alt="Saurav Kumar" @error="imgError = true" x-show="!imgError"
+                            class="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full object-cover border-8 border-white ring-4 ring-teal-700 shadow-2xl transition-transform duration-500 hover:scale-[1.02]" />
+
+                        <!-- Fallback Avatar -->
+                        <div x-show="imgError" x-cloak
+                            class="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-tr from-teal-800 to-teal-500 flex items-center justify-center shadow-2xl border-8 border-white ring-4 ring-teal-700 text-white font-black text-7xl sm:text-8xl tracking-tight shadow-inner">
+                            SK
+                        </div>
+
+                        <!-- Available for Internships Badge -->
+                        <div
+                            class="absolute -bottom-2 -left-4 sm:left-0 bg-white border border-gray-100 shadow-xl rounded-2xl px-5 py-3 flex items-center gap-3 animate-bounce hover:pause transition-all duration-300">
+                            <div
+                                class="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center text-teal-700 shadow-inner">
+                                <i class="fa-solid fa-briefcase text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400 font-medium">Status</p>
+                                <p class="text-sm font-bold text-gray-900 tracking-tight">Available for Internships</p>
+                            </div>
+                        </div>
+
+                        <!-- Decorative Teal Blur Ring behind photo -->
+                        <div class="absolute inset-0 -z-10 rounded-full bg-teal-400/20 blur-3xl scale-110"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2 — SERVICES (What I Offer) -->
+    <section id="services" class="py-20 md:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Heading -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <div
+                    class="text-xs font-bold tracking-widest text-teal-700 uppercase px-3.5 py-1 bg-teal-50 rounded-full inline-block">
+                    What I do
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
+                    Services
+                </h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Combining analytical rigor with consumer-driven strategies to deliver comprehensive financial and
+                    marketing solutions.
+                </p>
+            </div>
+
+            <!-- Services Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div
+                    class="group bg-white rounded-3xl p-8 border border-gray-100 shadow-sm hover:shadow-[0_10px_30px_rgba(15,118,110,0.12)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-teal-700 text-teal-700 group-hover:text-white flex items-center justify-center text-2xl mb-6 shadow-sm transition-all duration-300">
+                            <i class="fa-solid fa-chart-column"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-teal-700 transition-colors">
+                            Financial Analysis
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed font-normal">
+                            Strong foundation in financial analysis and investment risk management. Certified in CRM and
+                            Investment Risk Management with practical MBA-level expertise in finance strategy.
+                        </p>
+                    </div>
+                    <div
+                        class="pt-6 border-t border-gray-100 mt-6 flex items-center gap-2 text-teal-700 font-semibold text-sm">
+                        <span>Strategy & Risk</span>
+                        <i class="fa-solid fa-check text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                    class="group bg-white rounded-3xl p-8 border border-gray-100 shadow-sm hover:shadow-[0_10px_30px_rgba(15,118,110,0.12)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-teal-700 text-teal-700 group-hover:text-white flex items-center justify-center text-2xl mb-6 shadow-sm transition-all duration-300">
+                            <i class="fa-solid fa-bullhorn"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-teal-700 transition-colors">
+                            Marketing & Consumer Behavior
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed font-normal">
+                            Hands-on experience in retail operations and consumer behavior analysis. Skilled in
+                            understanding in-store display influence on purchase intentions and market research.
+                        </p>
+                    </div>
+                    <div
+                        class="pt-6 border-t border-gray-100 mt-6 flex items-center gap-2 text-teal-700 font-semibold text-sm">
+                        <span>Retail & Insights</span>
+                        <i class="fa-solid fa-check text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div
+                    class="group bg-white rounded-3xl p-8 border border-gray-100 shadow-sm hover:shadow-[0_10px_30px_rgba(15,118,110,0.12)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-teal-700 text-teal-700 group-hover:text-white flex items-center justify-center text-2xl mb-6 shadow-sm transition-all duration-300">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-teal-700 transition-colors">
+                            Business Strategy & Communication
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed font-normal">
+                            Skilled in strategic thinking, multitasking, and communication. Experienced in
+                            entrepreneurship bootcamps and cross-functional team collaboration.
+                        </p>
+                    </div>
+                    <div
+                        class="pt-6 border-t border-gray-100 mt-6 flex items-center gap-2 text-teal-700 font-semibold text-sm">
+                        <span>Execution & Leadership</span>
+                        <i class="fa-solid fa-check text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3 — EDUCATION (Grid Layout) -->
+    <section id="education" class="py-20 md:py-32 bg-gray-50/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Heading -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <div
+                    class="text-xs font-bold tracking-widest text-teal-700 uppercase px-3.5 py-1 bg-teal-50 rounded-full inline-block border border-teal-100 shadow-sm">
+                    My Journey
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
+                    Education
+                </h2>
+                <p class="text-lg text-gray-600">
+                    A progressive academic foundation driving expertise in business leadership and management.
+                </p>
+            </div>
+
+            <!-- Education Cards Grid (1 Row on Desktop) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                <!-- Degree 1 -->
+                <div
+                    class="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_15px_30px_rgba(15,118,110,0.12)] hover:border-teal-500/40 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-teal-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div>
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-teal-700 text-white text-xs font-bold rounded-full shadow-sm">
+                                <i class="fa-regular fa-calendar text-xs"></i>
+                                09/2024 – Present
+                            </span>
+                            <span class="text-xs font-bold text-teal-700 bg-teal-50 border border-teal-100 px-3 py-1 rounded-xl uppercase tracking-wider">Latest Degree</span>
+                        </div>
+                        <h3
+                            class="text-2xl font-extrabold text-gray-900 mb-1 group-hover:text-teal-700 transition-colors">
+                            Masters of Business Administration</h3>
+                        <p class="text-lg font-bold text-teal-800 mb-2">CT Group of Institutions</p>
+                        <p class="text-sm text-gray-500 mb-4 flex items-center gap-1.5 font-medium">
+                            <i class="fa-solid fa-location-dot text-teal-700"></i>
+                            Shahpur, Jalandhar
+                        </p>
+                        <p class="text-gray-700 mb-4 bg-gray-50/80 p-3.5 rounded-2xl border border-gray-100/80 font-medium text-sm shadow-sm">
+                            <span class="font-extrabold text-gray-900">Specialization:</span> Finance & Marketing
+                        </p>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                            Focusing on advanced corporate finance, strategic brand management, and data-driven marketing analytics while developing executive decision-making capabilities.
+                        </p>
+                    </div>
+                    <!-- Tags -->
+                    <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
+                        <span
+                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[MBA]</span>
+                        <span
+                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Finance]</span>
+                        <span
+                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Marketing]</span>
+                    </div>
+                </div>
+
+                <!-- Degree 2 -->
+                <div
+                    class="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_15px_30px_rgba(15,118,110,0.12)] hover:border-teal-500/40 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-teal-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div>
+                        <div class="mb-4">
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-full">
+                                <i class="fa-regular fa-calendar text-xs"></i>
+                                2021 – 2024
+                            </span>
+                        </div>
+                        <h3
+                            class="text-2xl font-extrabold text-gray-900 mb-1 group-hover:text-teal-700 transition-colors">
+                            Bachelor of Arts</h3>
+                        <p class="text-lg font-bold text-teal-800 mb-2">RBS College Teyai</p>
+                        <p class="text-sm text-gray-500 mb-4 flex items-center gap-1.5 font-medium">
+                            <i class="fa-solid fa-location-dot text-teal-700"></i>
+                            Begusarai, Bihar
+                        </p>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                            Developed strong analytical thinking, research methodologies, and multidisciplinary problem-solving skills with a comprehensive foundation in humanities and communication.
+                        </p>
+                    </div>
+                    <!-- Tags -->
+                    <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
+                        <span
+                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[BA]</span>
+                        <span
+                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Arts]</span>
+                    </div>
+                </div>
+
+                <!-- Degree 3 -->
+                <div
+                    class="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_15px_30px_rgba(15,118,110,0.12)] hover:border-teal-500/40 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-teal-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div>
+                        <div class="mb-4">
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-full">
+                                <i class="fa-regular fa-calendar text-xs"></i>
+                                2019 – 2021
+                            </span>
+                        </div>
+                        <h3
+                            class="text-2xl font-extrabold text-gray-900 mb-1 group-hover:text-teal-700 transition-colors">
+                            Intermediate</h3>
+                        <p class="text-lg font-bold text-teal-800 mb-2">RBS College Teyai</p>
+                        <p class="text-sm text-gray-500 mb-4 flex items-center gap-1.5 font-medium">
+                            <i class="fa-solid fa-location-dot text-teal-700"></i>
+                            Begusarai, Bihar
+                        </p>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                            Successfully completed higher secondary education under the Bihar Board curriculum with a focus on foundational academics, quantitative aptitude, and core theoretical concepts.
+                        </p>
+                    </div>
+                    <!-- Tags -->
+                    <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
+                        <span
+                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Intermediate]</span>
+                        <span
+                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Bihar Board]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4 — EXPERIENCE -->
+    <section id="experience" class="py-20 md:py-32 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Heading -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <div
+                    class="text-xs font-bold tracking-widest text-teal-700 uppercase px-3.5 py-1 bg-teal-50 rounded-full inline-block">
+                    Experience
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
+                    Work Experience
+                </h2>
+                <p class="text-lg text-gray-600">
+                    Practical exposure gained through hands-on retail operations and prestigious government initiatives.
+                </p>
+            </div>
+
+            <!-- Experience Cards Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Featured Card 1 -->
+                <div
+                    class="group bg-white rounded-3xl p-8 sm:p-10 border border-gray-100 shadow-sm hover:shadow-[0_12px_35px_rgba(15,118,110,0.15)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-teal-50/50 rounded-bl-full -z-10 group-hover:scale-125 transition-transform duration-500">
+                    </div>
+                    <div>
+                        <!-- Header info -->
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                            <span
+                                class="px-4 py-1.5 bg-teal-700 text-white font-bold text-xs rounded-full shadow-sm flex items-center gap-1.5">
+                                <i class="fa-solid fa-briefcase text-xs"></i>
+                                Internship
+                            </span>
+                            <span
+                                class="text-sm font-semibold text-teal-700 bg-teal-50 px-3 py-1 rounded-xl flex items-center gap-1.5">
+                                <i class="fa-regular fa-calendar-days"></i>
+                                06/2025 – 08/2025
+                            </span>
+                        </div>
+
+                        <!-- Role & Company -->
+                        <h3
+                            class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2 group-hover:text-teal-700 transition-colors">
+                            Retail Operations Intern</h3>
+                        <p class="text-lg font-bold text-teal-800 mb-1">Vmart Store — Retail Operations Department</p>
+                        <p class="text-sm text-gray-500 mb-6 flex items-center gap-1.5">
+                            <i class="fa-solid fa-location-dot text-teal-700"></i>
+                            Begusarai, Bihar
+                        </p>
+
+                        <!-- Tags -->
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span
+                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Retail]</span>
+                            <span
+                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Internship]</span>
+                            <span
+                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Marketing]</span>
+                        </div>
+
+                        <!-- Bullet points -->
+                        <ul class="space-y-3 text-gray-600 font-normal">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-teal-700 mt-1.5 text-sm flex-shrink-0"></i>
+                                <span>Assisted in daily retail store operations and customer service activities.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-teal-700 mt-1.5 text-sm flex-shrink-0"></i>
+                                <span>Learned practical aspects of retail marketing and consumer behavior in a real
+                                    store environment.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Featured Card 2 -->
+                <div
+                    class="group bg-white rounded-3xl p-8 sm:p-10 border border-gray-100 shadow-sm hover:shadow-[0_12px_35px_rgba(15,118,110,0.15)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-teal-50/50 rounded-bl-full -z-10 group-hover:scale-125 transition-transform duration-500">
+                    </div>
+                    <div>
+                        <!-- Header info -->
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                            <span
+                                class="px-4 py-1.5 bg-gray-900 text-white font-bold text-xs rounded-full shadow-sm flex items-center gap-1.5">
+                                <i class="fa-solid fa-handshake-angle text-xs"></i>
+                                Volunteer
+                            </span>
+                            <span
+                                class="text-sm font-semibold text-teal-700 bg-teal-50 px-3 py-1 rounded-xl flex items-center gap-1.5">
+                                <i class="fa-regular fa-calendar-days"></i>
+                                02/2025 – 02/2025
+                            </span>
+                        </div>
+
+                        <!-- Role & Company -->
+                        <h3
+                            class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2 group-hover:text-teal-700 transition-colors">
+                            Student Volunteer</h3>
+                        <p class="text-lg font-bold text-teal-800 mb-1">Innovation, Design and Entrepreneurship (IDE)
+                            Bootcamp</p>
+                        <p class="text-sm text-gray-500 mb-6 flex items-center gap-1.5">
+                            <i class="fa-solid fa-building-flag text-teal-700"></i>
+                            Ministry of Education, Government of India
+                        </p>
+
+                        <!-- Tags -->
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span
+                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Entrepreneurship]</span>
+                            <span
+                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Government]</span>
+                            <span
+                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Volunteer]</span>
+                        </div>
+
+                        <!-- Bullet points -->
+                        <ul class="space-y-3 text-gray-600 font-normal">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-teal-700 mt-1.5 text-sm flex-shrink-0"></i>
+                                <span>Participated as a student volunteer in the national-level IDE Bootcamp organized
+                                    by the Ministry of Education, Govt. of India.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-teal-700 mt-1.5 text-sm flex-shrink-0"></i>
+                                <span>Gained exposure to design thinking, innovation frameworks, and entrepreneurial
+                                    ideation processes.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5 — PERSONAL PROJECTS -->
+    <section id="projects" class="py-20 md:py-32 bg-gray-50/70">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Heading -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <div
+                    class="text-xs font-bold tracking-widest text-teal-700 uppercase px-3.5 py-1 bg-teal-50 rounded-full inline-block border border-teal-100">
+                    Projects
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
+                    Personal Projects
+                </h2>
+                <p class="text-lg text-gray-600">
+                    Research-backed inquiry into retail dynamics and shopper psychology.
+                </p>
+            </div>
+
+            <!-- Featured Project Card (Full width) -->
+            <div
+                class="group bg-white rounded-3xl p-8 sm:p-12 border border-gray-100 shadow-sm hover:shadow-[0_15px_40px_rgba(15,118,110,0.15)] transition-all duration-300 hover:-translate-y-2 relative overflow-hidden pt-10 sm:pt-14">
+                <!-- Teal Gradient Top Border Bar -->
+                <div class="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-teal-800 via-teal-600 to-teal-400"></div>
+
+                <div
+                    class="absolute -right-16 -top-16 w-64 h-64 bg-teal-50/60 rounded-full -z-10 group-hover:scale-125 transition-transform duration-500">
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-8 space-y-6">
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Research]</span>
+                            <span
+                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Consumer
+                                Behavior]</span>
+                            <span
+                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Marketing]</span>
+                        </div>
+
+                        <h3
+                            class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 group-hover:text-teal-700 transition-colors leading-tight">
+                            In-Store Displays Influence on Consumer Purchase Intentions
+                        </h3>
+
+                        <p class="text-gray-600 text-lg font-normal leading-relaxed">
+                            A research-based project studying how well-designed in-store displays attract consumer
+                            attention and shape product perceptions, ultimately influencing purchase decision-making.
+                        </p>
+                    </div>
+
+                    <!-- Key Findings Box -->
+                    <div class="lg:col-span-4 bg-teal-50/80 p-6 sm:p-8 rounded-2xl border border-teal-100/80 shadow-sm">
+                        <h4 class="font-extrabold text-teal-900 text-lg mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-teal-700"></i>
+                            Key Findings
+                        </h4>
+                        <ul class="space-y-3.5 text-sm text-gray-700 font-medium">
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-arrow-right text-teal-700 mt-1 flex-shrink-0"></i>
+                                <span>Well-designed store displays attract consumers' attention effectively.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-arrow-right text-teal-700 mt-1 flex-shrink-0"></i>
+                                <span>Store displays significantly shape consumers' perceptions of products.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6 — SKILLS & CERTIFICATIONS -->
+    <section id="skills" class="py-20 md:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Heading -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <div
+                    class="text-xs font-bold tracking-widest text-teal-700 uppercase px-3.5 py-1 bg-teal-50 rounded-full inline-block">
+                    My Skills
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
+                    Skills & Certifications
+                </h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    A robust suite of technical capabilities and professional strengths validated by industry-recognized
+                    credentials.
+                </p>
+            </div>
+
+            <!-- Two Column Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <!-- Left Column: Skills & Strengths -->
+                <div class="lg:col-span-6 space-y-10">
+                    <!-- Core Skills -->
+                    <div
+                        class="bg-gray-50/80 p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2.5">
+                            <i class="fa-solid fa-gears text-teal-700"></i>
+                            Core Skills & Competencies
+                        </h3>
+                        <div class="flex flex-wrap gap-2.5">
+                            <span
+                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">MS
+                                Office (Excel, PowerPoint, Word)</span>
+                            <span
+                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Adaptability</span>
+                            <span
+                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Good
+                                Communication</span>
+                            <span
+                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Multitasking</span>
+                            <span
+                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Strategic
+                                Thinking</span>
+                            <span
+                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Market
+                                Research</span>
+                            <span
+                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Consumer
+                                Behavior</span>
+                            <span
+                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Financial
+                                Analysis</span>
+                            <span
+                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Leadership</span>
+                            <span
+                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Active
+                                Listening</span>
+                        </div>
+                    </div>
+
+                    <!-- Strengths Row -->
+                    <div
+                        class="bg-teal-50/60 p-8 rounded-3xl border border-teal-100 shadow-sm hover:shadow-md transition-all duration-300">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2.5">
+                            <i class="fa-solid fa-fire text-teal-700"></i>
+                            Personal Strengths
+                        </h3>
+                        <div class="flex flex-wrap gap-2.5">
+                            <span
+                                class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Hard
+                                Working</span>
+                            <span
+                                class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Positive
+                                Attitude</span>
+                            <span
+                                class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Fast
+                                Mover</span>
+                            <span
+                                class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Leadership</span>
+                            <span
+                                class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Active
+                                Listener</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Certifications Cards -->
+                <div class="lg:col-span-6 space-y-6">
+                    <!-- Cert 1 -->
+                    <div
+                        class="group bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_10px_25px_rgba(15,118,110,0.12)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-1.5 flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-5">
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-teal-700 text-teal-700 group-hover:text-white flex items-center justify-center text-2xl shadow-sm transition-all duration-300 flex-shrink-0">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div>
+                                <h4
+                                    class="text-lg font-bold text-gray-900 group-hover:text-teal-700 transition-colors mb-1">
+                                    Customer Relationship Management</h4>
+                                <p class="text-sm font-medium text-gray-500">Issuer: Starweaver</p>
+                            </div>
+                        </div>
+                        <span
+                            class="px-3 py-1 bg-teal-50 text-teal-700 text-xs font-bold rounded-lg border border-teal-100 flex-shrink-0">[Certified
+                            ✓]</span>
+                    </div>
+
+                    <!-- Cert 2 -->
+                    <div
+                        class="group bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_10px_25px_rgba(15,118,110,0.12)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-1.5 flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-5">
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-teal-700 text-teal-700 group-hover:text-white flex items-center justify-center text-2xl shadow-sm transition-all duration-300 flex-shrink-0">
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                            </div>
+                            <div>
+                                <h4
+                                    class="text-lg font-bold text-gray-900 group-hover:text-teal-700 transition-colors mb-1">
+                                    Investment Risk Management</h4>
+                                <p class="text-sm font-medium text-gray-500">Issuer: Coursera — Project Network</p>
+                            </div>
+                        </div>
+                        <span
+                            class="px-3 py-1 bg-teal-50 text-teal-700 text-xs font-bold rounded-lg border border-teal-100 flex-shrink-0">[Certified
+                            ✓]</span>
+                    </div>
+
+                    <!-- Cert 3 -->
+                    <div
+                        class="group bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_10px_25px_rgba(15,118,110,0.12)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-1.5 flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-5">
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-teal-700 text-teal-700 group-hover:text-white flex items-center justify-center text-2xl shadow-sm transition-all duration-300 flex-shrink-0">
+                                <i class="fa-solid fa-table-cells"></i>
+                            </div>
+                            <div>
+                                <h4
+                                    class="text-lg font-bold text-gray-900 group-hover:text-teal-700 transition-colors mb-1">
+                                    MS Excel, MS PowerPoint, MS Word</h4>
+                                <p class="text-sm font-medium text-gray-500">Issuer: Microsoft</p>
+                            </div>
+                        </div>
+                        <span
+                            class="px-3 py-1 bg-teal-50 text-teal-700 text-xs font-bold rounded-lg border border-teal-100 flex-shrink-0">[Certified
+                            ✓]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7 — ABOUT -->
+    <section id="about" class="py-20 md:py-32 bg-gray-50/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Left side: Circular profile photo -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative inline-block" x-data="{ imgError: false }">
+                        <img src="profile.jpg" alt="Saurav Kumar" @error="imgError = true" x-show="!imgError"
+                            class="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full object-cover border-8 border-white ring-4 ring-teal-700 shadow-xl transition-transform duration-500 hover:scale-[1.02]" />
+
+                        <div x-show="imgError" x-cloak
+                            class="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-tr from-teal-800 to-teal-500 flex items-center justify-center shadow-xl border-8 border-white ring-4 ring-teal-700 text-white font-black text-7xl sm:text-8xl tracking-tight shadow-inner">
+                            SK
+                        </div>
+
+                        <!-- Accent dot -->
+                        <div
+                            class="absolute bottom-4 right-8 w-8 h-8 rounded-full bg-teal-700 border-4 border-white shadow-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right side: Text & Tools row -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div>
+                        <div
+                            class="text-xs font-bold tracking-widest text-teal-700 uppercase px-3.5 py-1 bg-teal-50 rounded-full inline-block mb-3 border border-teal-100">
+                            About me
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-6">
+                            A bit about who I am
+                        </h2>
+
+                        <div class="space-y-4 text-gray-600 text-lg leading-relaxed font-normal">
+                            <p>
+                                I'm Saurav Kumar, an MBA student specializing in Finance and Marketing at CT Group of
+                                Institutions. I'm passionate about financial analysis, consumer behavior, and
+                                data-driven marketing strategies that create real business impact.
+                            </p>
+                            <p>
+                                I've gained hands-on experience as a Retail Operations Intern at Vmart and as a Student
+                                Volunteer at the Government of India's IDE Bootcamp. I believe in continuous learning,
+                                positive attitude, and moving fast to deliver results.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Tools/tags row -->
+                    <div class="pt-6 border-t border-gray-200/80">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">Stack & tools</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">MS
+                                Excel</span>
+                            <span
+                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">MS
+                                PowerPoint</span>
+                            <span
+                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">MS
+                                Word</span>
+                            <span
+                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">Financial
+                                Analysis</span>
+                            <span
+                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">Market
+                                Research</span>
+                            <span
+                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">Consumer
+                                Behavior</span>
+                            <span
+                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">CRM</span>
+                            <span
+                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">Hindi</span>
+                            <span
+                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">English</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8 — CONTACT -->
+    <section id="contact" class="py-20 md:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Heading -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <div
+                    class="text-xs font-bold tracking-widest text-teal-700 uppercase px-3.5 py-1 bg-teal-50 rounded-full inline-block">
+                    Get in touch
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
+                    Let's connect
+                </h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    I'm open to internships, entry-level finance and marketing roles, research collaborations, and MBA
+                    project partnerships. Let's talk.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <!-- Left side details -->
+                <div class="lg:col-span-5 space-y-8 bg-gray-50/80 p-8 sm:p-10 rounded-3xl border border-gray-100">
+                    <h3 class="text-2xl font-bold text-gray-900">Contact Details</h3>
+
+                    <div class="space-y-6">
+                        <!-- Email -->
+                        <a href="mailto:sauravmananpur955@gmail.com"
+                            class="flex items-center gap-4 text-gray-700 hover:text-teal-700 transition-colors group">
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-white border border-gray-200/80 flex items-center justify-center text-teal-700 shadow-sm group-hover:bg-teal-700 group-hover:text-white transition-all duration-300">
+                                <i class="fa-solid fa-envelope text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Email</p>
+                                <p class="text-base font-semibold text-gray-900">sauravmananpur955@gmail.com</p>
+                            </div>
+                        </a>
+
+                        <!-- Phone -->
+                        <a href="tel:+916206645443"
+                            class="flex items-center gap-4 text-gray-700 hover:text-teal-700 transition-colors group">
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-white border border-gray-200/80 flex items-center justify-center text-teal-700 shadow-sm group-hover:bg-teal-700 group-hover:text-white transition-all duration-300">
+                                <i class="fa-solid fa-phone text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Phone</p>
+                                <p class="text-base font-semibold text-gray-900">+91 6206645443</p>
+                            </div>
+                        </a>
+
+                        <!-- Location -->
+                        <div class="flex items-center gap-4 text-gray-700">
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-white border border-gray-200/80 flex items-center justify-center text-teal-700 shadow-sm">
+                                <i class="fa-solid fa-location-dot text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Location</p>
+                                <p class="text-base font-semibold text-gray-900">Begusarai, Bihar, India</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="pt-6 border-t border-gray-200/80 space-y-4">
+                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Profiles</p>
+                        <div class="flex items-center gap-4">
+                            <a href="https://linkedin.com/in/saurav-kumar-47085a338" target="_blank"
+                                rel="noopener noreferrer"
+                                class="w-11 h-11 rounded-xl bg-white border border-gray-200/80 flex items-center justify-center text-gray-700 hover:bg-teal-700 hover:text-white hover:border-teal-700 transition-all duration-300 shadow-sm hover:-translate-y-1">
+                                <i class="fa-brands fa-linkedin-in text-lg"></i>
+                            </a>
+                            <a href="https://github.com/sauravkumar" target="_blank" rel="noopener noreferrer"
+                                class="w-11 h-11 rounded-xl bg-white border border-gray-200/80 flex items-center justify-center text-gray-700 hover:bg-teal-700 hover:text-white hover:border-teal-700 transition-all duration-300 shadow-sm hover:-translate-y-1">
+                                <i class="fa-brands fa-github text-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right side Contact Form -->
+                <div class="lg:col-span-7 bg-white p-8 sm:p-10 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_10px_30px_rgba(15,118,110,0.1)] transition-shadow duration-300"
+                    x-data="{
+                         formData: { name: '', email: '', subject: '', message: '' },
+                         submitted: false,
+                         handleSubmit() {
+                             if (this.formData.name && this.formData.email && this.formData.message) {
+                                 this.submitted = true;
+                                 this.formData = { name: '', email: '', subject: '', message: '' };
+                                 setTimeout(() => { this.submitted = false }, 5000);
+                             }
+                         }
+                     }">
+
+                    <!-- Success alert -->
+                    <div x-show="submitted" x-cloak
+                        class="mb-6 p-4 bg-teal-50 border border-teal-200 rounded-2xl text-teal-800 flex items-center gap-3">
+                        <div
+                            class="w-8 h-8 rounded-full bg-teal-700 text-white flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-check text-sm"></i>
+                        </div>
+                        <p class="text-sm font-medium">Thank you for your message! I will get back to you soon.</p>
+                    </div>
+
+                    <form @submit.prevent="handleSubmit" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-bold text-gray-700 mb-2">Name *</label>
+                                <input type="text" id="name" x-model="formData.name" required placeholder="John Doe"
+                                    class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-700 focus:border-transparent transition-all">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-bold text-gray-700 mb-2">Email *</label>
+                                <input type="email" id="email" x-model="formData.email" required
+                                    placeholder="john@example.com"
+                                    class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-700 focus:border-transparent transition-all">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="subject" class="block text-sm font-bold text-gray-700 mb-2">Subject</label>
+                            <input type="text" id="subject" x-model="formData.subject"
+                                placeholder="Internship Opportunity / Inquiry"
+                                class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-700 focus:border-transparent transition-all">
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-sm font-bold text-gray-700 mb-2">Message *</label>
+                            <textarea id="message" rows="5" x-model="formData.message" required
+                                placeholder="Hello Saurav, I would like to discuss..."
+                                class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-700 focus:border-transparent transition-all resize-none"></textarea>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-teal-700 hover:bg-teal-800 text-white font-medium text-base px-8 py-4 rounded-xl shadow-md hover:shadow-teal-700/20 transition-all duration-200 hover:-translate-y-0.5">
+                            <span>Send Message</span>
+                            <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 bg-white border-t border-gray-100 text-center">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col justify-center items-center gap-6">
+            <p class="text-xs text-gray-400 font-semibold tracking-wide text-center">
+                © 2026 Saurav Kumar. All rights reserved. | Design by <a href="https://mjbytech.com" target="_blank"
+                    rel="noopener noreferrer" class="text-teal-700 hover:underline">Ashsih Kumar</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/916206645443?text=Hi%20Saurav,%20I%20would%20like%20to%20connect%20with%20you." target="_blank" rel="noopener noreferrer"
+        class="fixed bottom-6 right-6 w-14 h-14 bg-[#25D366] hover:bg-[#20ba5c] text-white rounded-full shadow-[0_4px_20px_rgba(37,211,102,0.4)] z-50 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center group"
+        aria-label="Contact on WhatsApp">
+        <i class="fa-brands fa-whatsapp text-3xl group-hover:scale-110 transition-transform duration-200"></i>
+        <!-- Tooltip -->
+        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-gray-900 text-white text-xs font-semibold rounded-xl shadow-lg whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200">
+            Chat on WhatsApp
+        </span>
+    </a>
+
+    <!-- SCROLL-TO-TOP FLOATING BUTTON -->
+    <button x-data="{ show: false }" x-init="window.addEventListener('scroll', () => show = window.scrollY > 400)"
+        x-show="show" x-cloak x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-10 scale-75"
+        x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+        x-transition:leave-end="opacity-0 translate-y-10 scale-75"
+        @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        class="fixed bottom-24 right-6 w-12 h-12 bg-teal-700 hover:bg-teal-800 text-white rounded-full shadow-2xl z-50 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center cursor-pointer"
+        aria-label="Scroll to top" style="width: 48px; height: 48px;">
+        <svg class="w-6 h-6 text-white stroke-white" fill="none" stroke="white" stroke-width="3.5" viewBox="0 0 24 24"
+            style="width: 24px; height: 24px; stroke: #ffffff !important;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <!-- HIGH-PERFORMANCE SCROLL ANIMATION SYSTEM -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.scroll-animate').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
