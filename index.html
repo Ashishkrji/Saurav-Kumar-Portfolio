@@ -47,20 +47,6 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 1s ease-out forwards',
-                        'slide-up': 'slideUp 0.8s ease-out forwards',
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { transform: 'translateY(20px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        }
                     }
                 }
             }
@@ -78,6 +64,146 @@
         ::selection {
             background-color: #0f766e;
             color: white;
+        }
+
+        /* Webkit Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f9fafb;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0f766e;
+            border-radius: 10px;
+        }
+
+        /* Pulsing Timeline Dots */
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+        .timeline-dot {
+            position: relative;
+        }
+        .timeline-dot::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: #0f766e;
+            animation: pulse-ring 2s ease-out infinite;
+        }
+
+        /* Project & Experience Cards Gradient Top Border */
+        .project-card {
+            position: relative;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: #ffffff;
+        }
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0f766e, #06b6d4, #0f766e);
+            background-size: 200% 100%;
+            transition: background-position 0.5s ease;
+            z-index: 10;
+        }
+        .project-card:hover::before {
+            background-position: 100% 0;
+        }
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(15, 118, 110, 0.12);
+            background: rgba(15, 118, 110, 0.03);
+        }
+
+        /* Navbar Logo Gradient Border */
+        .nav-logo-sk {
+            position: relative;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(90deg, #0f766e, #06b6d4, #0f766e);
+            background-size: 200% 100%;
+            transition: background-position 0.5s ease;
+        }
+        .group:hover .nav-logo-sk {
+            background-position: 100% 0;
+        }
+        .nav-logo-inner {
+            background-color: #0f766e;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            z-index: 50;
+            animation: fadeInUp 0.5s ease 2s both, bounceInDelay 1s ease 3s;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background: #1ebe5d;
+            box-shadow: 0 6px 28px rgba(37, 211, 102, 0.6);
+        }
+        .whatsapp-tooltip {
+            position: absolute;
+            right: 76px;
+            background: white;
+            color: #374151;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 8px;
+            white-space: nowrap;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+        }
+        .whatsapp-float:hover .whatsapp-tooltip {
+            opacity: 1;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounceInDelay {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-12px); }
+            60% { transform: translateY(-6px); }
+        }
+
+        /* Section Reveal Initial State */
+        .section-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .section-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -106,19 +232,28 @@
           }
       }">
 
+    <!-- Fullscreen Page Loader -->
+    <div id="page-loader" class="fixed inset-0 bg-white z-[10000] flex items-center justify-center transition-opacity duration-500">
+        <div class="w-20 h-20 rounded-full bg-teal-700 text-white flex items-center justify-center font-black text-3xl tracking-wider shadow-2xl animate-pulse">
+            SK
+        </div>
+    </div>
+
+    <!-- Custom Cursor (Desktop Only) -->
+    <div id="custom-cursor" class="hidden md:block pointer-events-none fixed top-0 left-0 w-2 h-2 bg-teal-700 rounded-full z-[9999] transition-transform duration-75 ease-out" style="transform: translate(-50%, -50%);"></div>
+
     <!-- Sticky Navbar -->
     <header :class="scrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-3.5' : 'bg-transparent py-6'"
         class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
             <!-- Logo -->
-            <a href="#hero" class="flex items-center gap-2.5 group">
-                <div
-                    class="w-10 h-10 rounded-full bg-teal-700 text-white flex items-center justify-center font-extrabold text-lg tracking-wider shadow-md group-hover:scale-105 transition-transform duration-200">
-                    SK
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="nav-logo-sk w-11 h-11 shadow-md group-hover:scale-105 transition-transform duration-200">
+                    <div class="nav-logo-inner text-white font-extrabold text-lg tracking-wider">
+                        SK
+                    </div>
                 </div>
-                <span
-                    class="font-extrabold text-xl tracking-tight text-gray-900 group-hover:text-teal-700 transition-colors">Saurav
-                    Kumar</span>
+                <span class="font-extrabold text-xl tracking-tight text-gray-900 group-hover:text-teal-700 transition-colors">Saurav Kumar</span>
             </a>
 
             <!-- Desktop Nav Links -->
@@ -207,7 +342,7 @@
     </header>
 
     <!-- SECTION 1 — HERO -->
-    <section id="hero" class="pt-32 pb-20 md:pt-44 md:pb-32 bg-gray-50/50 relative overflow-hidden animate-fade-in">
+    <section id="hero" class="section-reveal pt-32 pb-20 md:pt-44 md:pb-32 bg-gray-50/50 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <!-- Left Column -->
@@ -249,34 +384,44 @@
                     <!-- Animated Stat Counters -->
                     <div class="grid grid-cols-3 gap-4 sm:gap-8 pt-8 border-t border-gray-200/80 max-w-lg mx-auto lg:mx-0"
                         x-data="{
-                            count1: 0, count2: 0, count3: 0,
                             started: false,
-                            startAnimation() {
-                                if(this.started) return;
-                                this.started = true;
-                                let i1 = setInterval(() => { if(this.count1 < 3) this.count1++; else clearInterval(i1); }, 250);
-                                let i2 = setInterval(() => { if(this.count2 < 2) this.count2++; else clearInterval(i2); }, 350);
-                                let i3 = setInterval(() => { if(this.count3 < 5) this.count3++; else clearInterval(i3); }, 150);
+                            countUp(el, target, duration, delay, suffix) {
+                                setTimeout(() => {
+                                    let startTime = null;
+                                    const step = (timestamp) => {
+                                        if (!startTime) startTime = timestamp;
+                                        const progress = Math.min((timestamp - startTime) / duration, 1);
+                                        const ease = 1 - Math.pow(1 - progress, 4); // easeOutQuart
+                                        el.textContent = Math.floor(ease * target) + suffix;
+                                        if (progress < 1) requestAnimationFrame(step);
+                                    };
+                                    requestAnimationFrame(step);
+                                }, delay);
                             }
                         }"
                         x-init="
                             const statObserver = new IntersectionObserver(entries => {
-                                if(entries[0].isIntersecting) startAnimation();
+                                if(entries[0].isIntersecting && !started) {
+                                    started = true;
+                                    countUp($refs.stat1, 3, 1500, 0, '+');
+                                    countUp($refs.stat2, 2, 1500, 200, '');
+                                    countUp($refs.stat3, 5, 1500, 400, '+ yrs');
+                                }
                             }, { threshold: 0.5 });
                             statObserver.observe($el);
                         ">
                         <div class="text-center lg:text-left">
-                            <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight"><span x-text="count1">0</span>+</div>
+                            <div x-ref="stat1" class="text-4xl sm:text-5xl font-extrabold text-teal-700 tracking-tight">0+</div>
                             <div class="text-xs sm:text-sm font-medium text-gray-500 mt-1 uppercase tracking-wider">
                                 Certifications</div>
                         </div>
                         <div class="text-center lg:text-left border-x border-gray-200/80 px-4 sm:px-6">
-                            <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight"><span x-text="count2">0</span></div>
+                            <div x-ref="stat2" class="text-4xl sm:text-5xl font-extrabold text-teal-700 tracking-tight">0</div>
                             <div class="text-xs sm:text-sm font-medium text-gray-500 mt-1 uppercase tracking-wider">
                                 Experiences</div>
                         </div>
                         <div class="text-center lg:text-left">
-                            <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight"><span x-text="count3">0</span>+ yrs</div>
+                            <div x-ref="stat3" class="text-4xl sm:text-5xl font-extrabold text-teal-700 tracking-tight">0+ yrs</div>
                             <div class="text-xs sm:text-sm font-medium text-gray-500 mt-1 uppercase tracking-wider">
                                 Education Journey</div>
                         </div>
@@ -318,7 +463,7 @@
     </section>
 
     <!-- SECTION 2 — SERVICES (What I Offer) -->
-    <section id="services" class="py-20 md:py-32 bg-white">
+    <section id="services" class="section-reveal py-20 md:py-32 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Heading -->
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
@@ -338,14 +483,13 @@
             <!-- Services Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card 1 -->
-                <div
-                    class="group bg-white rounded-3xl p-8 border border-gray-100 shadow-sm hover:shadow-[0_10px_30px_rgba(15,118,110,0.12)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between">
+                <div class="project-card p-8 flex flex-col justify-between">
                     <div>
                         <div
                             class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-teal-700 text-teal-700 group-hover:text-white flex items-center justify-center text-2xl mb-6 shadow-sm transition-all duration-300">
                             <i class="fa-solid fa-chart-column"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-teal-700 transition-colors">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-teal-700 transition-colors">
                             Financial Analysis
                         </h3>
                         <p class="text-gray-600 leading-relaxed font-normal">
@@ -361,14 +505,13 @@
                 </div>
 
                 <!-- Card 2 -->
-                <div
-                    class="group bg-white rounded-3xl p-8 border border-gray-100 shadow-sm hover:shadow-[0_10px_30px_rgba(15,118,110,0.12)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between">
+                <div class="project-card p-8 flex flex-col justify-between">
                     <div>
                         <div
                             class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-teal-700 text-teal-700 group-hover:text-white flex items-center justify-center text-2xl mb-6 shadow-sm transition-all duration-300">
                             <i class="fa-solid fa-bullhorn"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-teal-700 transition-colors">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-teal-700 transition-colors">
                             Marketing & Consumer Behavior
                         </h3>
                         <p class="text-gray-600 leading-relaxed font-normal">
@@ -384,14 +527,13 @@
                 </div>
 
                 <!-- Card 3 -->
-                <div
-                    class="group bg-white rounded-3xl p-8 border border-gray-100 shadow-sm hover:shadow-[0_10px_30px_rgba(15,118,110,0.12)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between">
+                <div class="project-card p-8 flex flex-col justify-between">
                     <div>
                         <div
                             class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-teal-700 text-teal-700 group-hover:text-white flex items-center justify-center text-2xl mb-6 shadow-sm transition-all duration-300">
                             <i class="fa-solid fa-briefcase"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-teal-700 transition-colors">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-teal-700 transition-colors">
                             Business Strategy & Communication
                         </h3>
                         <p class="text-gray-600 leading-relaxed font-normal">
@@ -410,7 +552,7 @@
     </section>
 
     <!-- SECTION 3 — EDUCATION (Grid Layout) -->
-    <section id="education" class="py-20 md:py-32 bg-gray-50/70">
+    <section id="education" class="section-reveal py-20 md:py-32 bg-gray-50/70">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Heading -->
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
@@ -429,20 +571,20 @@
             <!-- Education Cards Grid (1 Row on Desktop) -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
                 <!-- Degree 1 -->
-                <div
-                    class="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_15px_30px_rgba(15,118,110,0.12)] hover:border-teal-500/40 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-2 bg-teal-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="project-card p-8 flex flex-col justify-between">
                     <div>
                         <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
-                            <span
-                                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-teal-700 text-white text-xs font-bold rounded-full shadow-sm">
-                                <i class="fa-regular fa-calendar text-xs"></i>
-                                09/2024 – Present
-                            </span>
+                            <div class="flex items-center gap-3">
+                                <!-- Pulsing Timeline Dot -->
+                                <div class="timeline-dot w-3.5 h-3.5 bg-teal-700 rounded-full flex-shrink-0" style="animation-delay: 0s;"></div>
+                                <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-teal-700 text-white text-xs font-bold rounded-full shadow-sm">
+                                    <i class="fa-regular fa-calendar text-xs"></i>
+                                    09/2024 – Present
+                                </span>
+                            </div>
                             <span class="text-xs font-bold text-teal-700 bg-teal-50 border border-teal-100 px-3 py-1 rounded-xl uppercase tracking-wider">Latest Degree</span>
                         </div>
-                        <h3
-                            class="text-2xl font-extrabold text-gray-900 mb-1 group-hover:text-teal-700 transition-colors">
+                        <h3 class="text-2xl font-extrabold text-gray-900 mb-1 hover:text-teal-700 transition-colors">
                             Masters of Business Administration</h3>
                         <p class="text-lg font-bold text-teal-800 mb-2">CT Group of Institutions</p>
                         <p class="text-sm text-gray-500 mb-4 flex items-center gap-1.5 font-medium">
@@ -458,29 +600,24 @@
                     </div>
                     <!-- Tags -->
                     <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
-                        <span
-                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[MBA]</span>
-                        <span
-                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Finance]</span>
-                        <span
-                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Marketing]</span>
+                        <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[MBA]</span>
+                        <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Finance]</span>
+                        <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Marketing]</span>
                     </div>
                 </div>
 
                 <!-- Degree 2 -->
-                <div
-                    class="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_15px_30px_rgba(15,118,110,0.12)] hover:border-teal-500/40 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-2 bg-teal-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="project-card p-8 flex flex-col justify-between">
                     <div>
-                        <div class="mb-4">
-                            <span
-                                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-full">
+                        <div class="flex items-center gap-3 mb-4">
+                            <!-- Pulsing Timeline Dot -->
+                            <div class="timeline-dot w-3.5 h-3.5 bg-teal-700 rounded-full flex-shrink-0" style="animation-delay: 0.5s;"></div>
+                            <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-full">
                                 <i class="fa-regular fa-calendar text-xs"></i>
                                 2021 – 2024
                             </span>
                         </div>
-                        <h3
-                            class="text-2xl font-extrabold text-gray-900 mb-1 group-hover:text-teal-700 transition-colors">
+                        <h3 class="text-2xl font-extrabold text-gray-900 mb-1 hover:text-teal-700 transition-colors">
                             Bachelor of Arts</h3>
                         <p class="text-lg font-bold text-teal-800 mb-2">RBS College Teyai</p>
                         <p class="text-sm text-gray-500 mb-4 flex items-center gap-1.5 font-medium">
@@ -493,27 +630,23 @@
                     </div>
                     <!-- Tags -->
                     <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
-                        <span
-                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[BA]</span>
-                        <span
-                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Arts]</span>
+                        <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[BA]</span>
+                        <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Arts]</span>
                     </div>
                 </div>
 
                 <!-- Degree 3 -->
-                <div
-                    class="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_15px_30px_rgba(15,118,110,0.12)] hover:border-teal-500/40 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-2 bg-teal-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="project-card p-8 flex flex-col justify-between">
                     <div>
-                        <div class="mb-4">
-                            <span
-                                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-full">
+                        <div class="flex items-center gap-3 mb-4">
+                            <!-- Pulsing Timeline Dot -->
+                            <div class="timeline-dot w-3.5 h-3.5 bg-teal-700 rounded-full flex-shrink-0" style="animation-delay: 1s;"></div>
+                            <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-full">
                                 <i class="fa-regular fa-calendar text-xs"></i>
                                 2019 – 2021
                             </span>
                         </div>
-                        <h3
-                            class="text-2xl font-extrabold text-gray-900 mb-1 group-hover:text-teal-700 transition-colors">
+                        <h3 class="text-2xl font-extrabold text-gray-900 mb-1 hover:text-teal-700 transition-colors">
                             Intermediate</h3>
                         <p class="text-lg font-bold text-teal-800 mb-2">RBS College Teyai</p>
                         <p class="text-sm text-gray-500 mb-4 flex items-center gap-1.5 font-medium">
@@ -526,10 +659,8 @@
                     </div>
                     <!-- Tags -->
                     <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
-                        <span
-                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Intermediate]</span>
-                        <span
-                            class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Bihar Board]</span>
+                        <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Intermediate]</span>
+                        <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Bihar Board]</span>
                     </div>
                 </div>
             </div>
@@ -537,7 +668,7 @@
     </section>
 
     <!-- SECTION 4 — EXPERIENCE -->
-    <section id="experience" class="py-20 md:py-32 bg-white">
+    <section id="experience" class="section-reveal py-20 md:py-32 bg-white">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Heading -->
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
@@ -556,29 +687,22 @@
             <!-- Experience Cards Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- Featured Card 1 -->
-                <div
-                    class="group bg-white rounded-3xl p-8 sm:p-10 border border-gray-100 shadow-sm hover:shadow-[0_12px_35px_rgba(15,118,110,0.15)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between relative overflow-hidden">
-                    <div
-                        class="absolute top-0 right-0 w-32 h-32 bg-teal-50/50 rounded-bl-full -z-10 group-hover:scale-125 transition-transform duration-500">
-                    </div>
+                <div class="project-card p-8 sm:p-10 flex flex-col justify-between">
                     <div>
                         <!-- Header info -->
                         <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
-                            <span
-                                class="px-4 py-1.5 bg-teal-700 text-white font-bold text-xs rounded-full shadow-sm flex items-center gap-1.5">
+                            <span class="px-4 py-1.5 bg-teal-700 text-white font-bold text-xs rounded-full shadow-sm flex items-center gap-1.5">
                                 <i class="fa-solid fa-briefcase text-xs"></i>
                                 Internship
                             </span>
-                            <span
-                                class="text-sm font-semibold text-teal-700 bg-teal-50 px-3 py-1 rounded-xl flex items-center gap-1.5">
+                            <span class="text-sm font-semibold text-teal-700 bg-teal-50 px-3 py-1 rounded-xl flex items-center gap-1.5">
                                 <i class="fa-regular fa-calendar-days"></i>
                                 06/2025 – 08/2025
                             </span>
                         </div>
 
                         <!-- Role & Company -->
-                        <h3
-                            class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2 group-hover:text-teal-700 transition-colors">
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2 hover:text-teal-700 transition-colors">
                             Retail Operations Intern</h3>
                         <p class="text-lg font-bold text-teal-800 mb-1">Vmart Store — Retail Operations Department</p>
                         <p class="text-sm text-gray-500 mb-6 flex items-center gap-1.5">
@@ -588,12 +712,9 @@
 
                         <!-- Tags -->
                         <div class="flex flex-wrap gap-2 mb-8">
-                            <span
-                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Retail]</span>
-                            <span
-                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Internship]</span>
-                            <span
-                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Marketing]</span>
+                            <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Retail]</span>
+                            <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Internship]</span>
+                            <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Marketing]</span>
                         </div>
 
                         <!-- Bullet points -->
@@ -604,40 +725,31 @@
                             </li>
                             <li class="flex items-start gap-3">
                                 <i class="fa-solid fa-circle-check text-teal-700 mt-1.5 text-sm flex-shrink-0"></i>
-                                <span>Learned practical aspects of retail marketing and consumer behavior in a real
-                                    store environment.</span>
+                                <span>Learned practical aspects of retail marketing and consumer behavior in a real store environment.</span>
                             </li>
                         </ul>
                     </div>
                 </div>
 
                 <!-- Featured Card 2 -->
-                <div
-                    class="group bg-white rounded-3xl p-8 sm:p-10 border border-gray-100 shadow-sm hover:shadow-[0_12px_35px_rgba(15,118,110,0.15)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between relative overflow-hidden">
-                    <div
-                        class="absolute top-0 right-0 w-32 h-32 bg-teal-50/50 rounded-bl-full -z-10 group-hover:scale-125 transition-transform duration-500">
-                    </div>
+                <div class="project-card p-8 sm:p-10 flex flex-col justify-between">
                     <div>
                         <!-- Header info -->
                         <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
-                            <span
-                                class="px-4 py-1.5 bg-gray-900 text-white font-bold text-xs rounded-full shadow-sm flex items-center gap-1.5">
+                            <span class="px-4 py-1.5 bg-gray-900 text-white font-bold text-xs rounded-full shadow-sm flex items-center gap-1.5">
                                 <i class="fa-solid fa-handshake-angle text-xs"></i>
                                 Volunteer
                             </span>
-                            <span
-                                class="text-sm font-semibold text-teal-700 bg-teal-50 px-3 py-1 rounded-xl flex items-center gap-1.5">
+                            <span class="text-sm font-semibold text-teal-700 bg-teal-50 px-3 py-1 rounded-xl flex items-center gap-1.5">
                                 <i class="fa-regular fa-calendar-days"></i>
                                 02/2025 – 02/2025
                             </span>
                         </div>
 
                         <!-- Role & Company -->
-                        <h3
-                            class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2 group-hover:text-teal-700 transition-colors">
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2 hover:text-teal-700 transition-colors">
                             Student Volunteer</h3>
-                        <p class="text-lg font-bold text-teal-800 mb-1">Innovation, Design and Entrepreneurship (IDE)
-                            Bootcamp</p>
+                        <p class="text-lg font-bold text-teal-800 mb-1">Innovation, Design and Entrepreneurship (IDE) Bootcamp</p>
                         <p class="text-sm text-gray-500 mb-6 flex items-center gap-1.5">
                             <i class="fa-solid fa-building-flag text-teal-700"></i>
                             Ministry of Education, Government of India
@@ -645,25 +757,20 @@
 
                         <!-- Tags -->
                         <div class="flex flex-wrap gap-2 mb-8">
-                            <span
-                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Entrepreneurship]</span>
-                            <span
-                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Government]</span>
-                            <span
-                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Volunteer]</span>
+                            <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Entrepreneurship]</span>
+                            <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Government]</span>
+                            <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Volunteer]</span>
                         </div>
 
                         <!-- Bullet points -->
                         <ul class="space-y-3 text-gray-600 font-normal">
                             <li class="flex items-start gap-3">
                                 <i class="fa-solid fa-circle-check text-teal-700 mt-1.5 text-sm flex-shrink-0"></i>
-                                <span>Participated as a student volunteer in the national-level IDE Bootcamp organized
-                                    by the Ministry of Education, Govt. of India.</span>
+                                <span>Participated as a student volunteer in the national-level IDE Bootcamp organized by the Ministry of Education, Govt. of India.</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <i class="fa-solid fa-circle-check text-teal-700 mt-1.5 text-sm flex-shrink-0"></i>
-                                <span>Gained exposure to design thinking, innovation frameworks, and entrepreneurial
-                                    ideation processes.</span>
+                                <span>Gained exposure to design thinking, innovation frameworks, and entrepreneurial ideation processes.</span>
                             </li>
                         </ul>
                     </div>
@@ -673,7 +780,7 @@
     </section>
 
     <!-- SECTION 5 — PERSONAL PROJECTS -->
-    <section id="projects" class="py-20 md:py-32 bg-gray-50/70">
+    <section id="projects" class="section-reveal py-20 md:py-32 bg-gray-50/70">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Heading -->
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
@@ -690,35 +797,21 @@
             </div>
 
             <!-- Featured Project Card (Full width) -->
-            <div
-                class="group bg-white rounded-3xl p-8 sm:p-12 border border-gray-100 shadow-sm hover:shadow-[0_15px_40px_rgba(15,118,110,0.15)] transition-all duration-300 hover:-translate-y-2 relative overflow-hidden pt-10 sm:pt-14">
-                <!-- Teal Gradient Top Border Bar -->
-                <div class="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-teal-800 via-teal-600 to-teal-400"></div>
-
-                <div
-                    class="absolute -right-16 -top-16 w-64 h-64 bg-teal-50/60 rounded-full -z-10 group-hover:scale-125 transition-transform duration-500">
-                </div>
-
+            <div class="project-card p-8 sm:p-12 pt-10 sm:pt-14">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                     <div class="lg:col-span-8 space-y-6">
                         <div class="flex flex-wrap gap-2">
-                            <span
-                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Research]</span>
-                            <span
-                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Consumer
-                                Behavior]</span>
-                            <span
-                                class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Marketing]</span>
+                            <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Research]</span>
+                            <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Consumer Behavior]</span>
+                            <span class="px-3 py-1 bg-teal-50 text-teal-700 font-semibold text-xs rounded-lg border border-teal-100">[Marketing]</span>
                         </div>
 
-                        <h3
-                            class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 group-hover:text-teal-700 transition-colors leading-tight">
+                        <h3 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 hover:text-teal-700 transition-colors leading-tight">
                             In-Store Displays Influence on Consumer Purchase Intentions
                         </h3>
 
                         <p class="text-gray-600 text-lg font-normal leading-relaxed">
-                            A research-based project studying how well-designed in-store displays attract consumer
-                            attention and shape product perceptions, ultimately influencing purchase decision-making.
+                            A research-based project studying how well-designed in-store displays attract consumer attention and shape product perceptions, ultimately influencing purchase decision-making.
                         </p>
                     </div>
 
@@ -745,7 +838,7 @@
     </section>
 
     <!-- SECTION 6 — SKILLS & CERTIFICATIONS -->
-    <section id="skills" class="py-20 md:py-32 bg-white">
+    <section id="skills" class="section-reveal py-20 md:py-32 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Heading -->
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
@@ -757,8 +850,7 @@
                     Skills & Certifications
                 </h2>
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                    A robust suite of technical capabilities and professional strengths validated by industry-recognized
-                    credentials.
+                    A robust suite of technical capabilities and professional strengths validated by industry-recognized credentials.
                 </p>
             </div>
 
@@ -767,65 +859,37 @@
                 <!-- Left Column: Skills & Strengths -->
                 <div class="lg:col-span-6 space-y-10">
                     <!-- Core Skills -->
-                    <div
-                        class="bg-gray-50/80 p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="bg-gray-50/80 p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
                         <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2.5">
                             <i class="fa-solid fa-gears text-teal-700"></i>
                             Core Skills & Competencies
                         </h3>
                         <div class="flex flex-wrap gap-2.5">
-                            <span
-                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">MS
-                                Office (Excel, PowerPoint, Word)</span>
-                            <span
-                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Adaptability</span>
-                            <span
-                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Good
-                                Communication</span>
-                            <span
-                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Multitasking</span>
-                            <span
-                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Strategic
-                                Thinking</span>
-                            <span
-                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Market
-                                Research</span>
-                            <span
-                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Consumer
-                                Behavior</span>
-                            <span
-                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Financial
-                                Analysis</span>
-                            <span
-                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Leadership</span>
-                            <span
-                                class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Active
-                                Listening</span>
+                            <span class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">MS Office (Excel, PowerPoint, Word)</span>
+                            <span class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Adaptability</span>
+                            <span class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Good Communication</span>
+                            <span class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Multitasking</span>
+                            <span class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Strategic Thinking</span>
+                            <span class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Market Research</span>
+                            <span class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Consumer Behavior</span>
+                            <span class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Financial Analysis</span>
+                            <span class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Leadership</span>
+                            <span class="px-4 py-2 bg-white text-gray-800 font-semibold text-sm rounded-xl border border-gray-200/80 shadow-sm hover:bg-teal-700 hover:text-white transition-colors duration-200">Active Listening</span>
                         </div>
                     </div>
 
                     <!-- Strengths Row -->
-                    <div
-                        class="bg-teal-50/60 p-8 rounded-3xl border border-teal-100 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="bg-teal-50/60 p-8 rounded-3xl border border-teal-100 shadow-sm hover:shadow-md transition-all duration-300">
                         <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2.5">
                             <i class="fa-solid fa-fire text-teal-700"></i>
                             Personal Strengths
                         </h3>
                         <div class="flex flex-wrap gap-2.5">
-                            <span
-                                class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Hard
-                                Working</span>
-                            <span
-                                class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Positive
-                                Attitude</span>
-                            <span
-                                class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Fast
-                                Mover</span>
-                            <span
-                                class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Leadership</span>
-                            <span
-                                class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Active
-                                Listener</span>
+                            <span class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Hard Working</span>
+                            <span class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Positive Attitude</span>
+                            <span class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Fast Mover</span>
+                            <span class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Leadership</span>
+                            <span class="px-4 py-2 bg-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm">Active Listener</span>
                         </div>
                     </div>
                 </div>
@@ -833,63 +897,48 @@
                 <!-- Right Column: Certifications Cards -->
                 <div class="lg:col-span-6 space-y-6">
                     <!-- Cert 1 -->
-                    <div
-                        class="group bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_10px_25px_rgba(15,118,110,0.12)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-1.5 flex items-center justify-between gap-4">
+                    <div class="project-card p-6 sm:p-8 flex items-center justify-between gap-4">
                         <div class="flex items-center gap-5">
-                            <div
-                                class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-teal-700 text-teal-700 group-hover:text-white flex items-center justify-center text-2xl shadow-sm transition-all duration-300 flex-shrink-0">
+                            <div class="w-14 h-14 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center text-2xl shadow-sm flex-shrink-0">
                                 <i class="fa-solid fa-users"></i>
                             </div>
                             <div>
-                                <h4
-                                    class="text-lg font-bold text-gray-900 group-hover:text-teal-700 transition-colors mb-1">
+                                <h4 class="text-lg font-bold text-gray-900 hover:text-teal-700 transition-colors mb-1">
                                     Customer Relationship Management</h4>
                                 <p class="text-sm font-medium text-gray-500">Issuer: Starweaver</p>
                             </div>
                         </div>
-                        <span
-                            class="px-3 py-1 bg-teal-50 text-teal-700 text-xs font-bold rounded-lg border border-teal-100 flex-shrink-0">[Certified
-                            ✓]</span>
+                        <span class="px-3 py-1 bg-teal-50 text-teal-700 text-xs font-bold rounded-lg border border-teal-100 flex-shrink-0">[Certified ✓]</span>
                     </div>
 
                     <!-- Cert 2 -->
-                    <div
-                        class="group bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_10px_25px_rgba(15,118,110,0.12)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-1.5 flex items-center justify-between gap-4">
+                    <div class="project-card p-6 sm:p-8 flex items-center justify-between gap-4">
                         <div class="flex items-center gap-5">
-                            <div
-                                class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-teal-700 text-teal-700 group-hover:text-white flex items-center justify-center text-2xl shadow-sm transition-all duration-300 flex-shrink-0">
+                            <div class="w-14 h-14 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center text-2xl shadow-sm flex-shrink-0">
                                 <i class="fa-solid fa-arrow-trend-up"></i>
                             </div>
                             <div>
-                                <h4
-                                    class="text-lg font-bold text-gray-900 group-hover:text-teal-700 transition-colors mb-1">
+                                <h4 class="text-lg font-bold text-gray-900 hover:text-teal-700 transition-colors mb-1">
                                     Investment Risk Management</h4>
                                 <p class="text-sm font-medium text-gray-500">Issuer: Coursera — Project Network</p>
                             </div>
                         </div>
-                        <span
-                            class="px-3 py-1 bg-teal-50 text-teal-700 text-xs font-bold rounded-lg border border-teal-100 flex-shrink-0">[Certified
-                            ✓]</span>
+                        <span class="px-3 py-1 bg-teal-50 text-teal-700 text-xs font-bold rounded-lg border border-teal-100 flex-shrink-0">[Certified ✓]</span>
                     </div>
 
                     <!-- Cert 3 -->
-                    <div
-                        class="group bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-[0_10px_25px_rgba(15,118,110,0.12)] hover:border-teal-500/30 transition-all duration-300 hover:-translate-y-1.5 flex items-center justify-between gap-4">
+                    <div class="project-card p-6 sm:p-8 flex items-center justify-between gap-4">
                         <div class="flex items-center gap-5">
-                            <div
-                                class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-teal-700 text-teal-700 group-hover:text-white flex items-center justify-center text-2xl shadow-sm transition-all duration-300 flex-shrink-0">
+                            <div class="w-14 h-14 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center text-2xl shadow-sm flex-shrink-0">
                                 <i class="fa-solid fa-table-cells"></i>
                             </div>
                             <div>
-                                <h4
-                                    class="text-lg font-bold text-gray-900 group-hover:text-teal-700 transition-colors mb-1">
+                                <h4 class="text-lg font-bold text-gray-900 hover:text-teal-700 transition-colors mb-1">
                                     MS Excel, MS PowerPoint, MS Word</h4>
                                 <p class="text-sm font-medium text-gray-500">Issuer: Microsoft</p>
                             </div>
                         </div>
-                        <span
-                            class="px-3 py-1 bg-teal-50 text-teal-700 text-xs font-bold rounded-lg border border-teal-100 flex-shrink-0">[Certified
-                            ✓]</span>
+                        <span class="px-3 py-1 bg-teal-50 text-teal-700 text-xs font-bold rounded-lg border border-teal-100 flex-shrink-0">[Certified ✓]</span>
                     </div>
                 </div>
             </div>
@@ -897,7 +946,7 @@
     </section>
 
     <!-- SECTION 7 — ABOUT -->
-    <section id="about" class="py-20 md:py-32 bg-gray-50/70">
+    <section id="about" class="section-reveal py-20 md:py-32 bg-gray-50/70">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <!-- Left side: Circular profile photo -->
@@ -947,30 +996,15 @@
                     <div class="pt-6 border-t border-gray-200/80">
                         <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">Stack & tools</h3>
                         <div class="flex flex-wrap gap-2">
-                            <span
-                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">MS
-                                Excel</span>
-                            <span
-                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">MS
-                                PowerPoint</span>
-                            <span
-                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">MS
-                                Word</span>
-                            <span
-                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">Financial
-                                Analysis</span>
-                            <span
-                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">Market
-                                Research</span>
-                            <span
-                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">Consumer
-                                Behavior</span>
-                            <span
-                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">CRM</span>
-                            <span
-                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">Hindi</span>
-                            <span
-                                class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">English</span>
+                            <span class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">MS Excel</span>
+                            <span class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">MS PowerPoint</span>
+                            <span class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">MS Word</span>
+                            <span class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">Financial Analysis</span>
+                            <span class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">Market Research</span>
+                            <span class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">Consumer Behavior</span>
+                            <span class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">CRM</span>
+                            <span class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">Hindi</span>
+                            <span class="px-3 py-1.5 bg-white text-gray-800 font-medium text-xs rounded-lg border border-gray-200/80 shadow-sm">English</span>
                         </div>
                     </div>
                 </div>
@@ -979,7 +1013,7 @@
     </section>
 
     <!-- SECTION 8 — CONTACT -->
-    <section id="contact" class="py-20 md:py-32 bg-white">
+    <section id="contact" class="section-reveal py-20 md:py-32 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Heading -->
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
@@ -1127,18 +1161,17 @@
         <div class="max-w-7xl mx-auto px-6 flex flex-col justify-center items-center gap-6">
             <p class="text-xs text-gray-400 font-semibold tracking-wide text-center">
                 © 2026 Saurav Kumar. All rights reserved. | Design by <a href="https://mjbytech.com" target="_blank"
-                    rel="noopener noreferrer" class="text-teal-700 hover:underline">Ashsih Kumar</a>
+                    rel="noopener noreferrer" class="text-teal-700 hover:underline">Ashish Kumar</a>
             </p>
         </div>
     </footer>
 
     <!-- FLOATING WHATSAPP BUTTON -->
     <a href="https://wa.me/916206645443?text=Hi%20Saurav,%20I%20would%20like%20to%20connect%20with%20you." target="_blank" rel="noopener noreferrer"
-        class="fixed bottom-6 right-6 w-14 h-14 bg-[#25D366] hover:bg-[#20ba5c] text-white rounded-full shadow-[0_4px_20px_rgba(37,211,102,0.4)] z-50 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center group"
-        aria-label="Contact on WhatsApp">
-        <i class="fa-brands fa-whatsapp text-3xl group-hover:scale-110 transition-transform duration-200"></i>
+        class="whatsapp-float group" aria-label="Contact on WhatsApp">
+        <i class="fa-brands fa-whatsapp text-4xl group-hover:scale-110 transition-transform duration-200"></i>
         <!-- Tooltip -->
-        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-gray-900 text-white text-xs font-semibold rounded-xl shadow-lg whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200">
+        <span class="whatsapp-tooltip">
             Chat on WhatsApp
         </span>
     </a>
@@ -1152,7 +1185,7 @@
         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
         x-transition:leave-end="opacity-0 translate-y-10 scale-75"
         @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
-        class="fixed bottom-24 right-6 w-12 h-12 bg-teal-700 hover:bg-teal-800 text-white rounded-full shadow-2xl z-50 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center cursor-pointer"
+        class="fixed bottom-28 right-6 w-12 h-12 bg-teal-700 hover:bg-teal-800 text-white rounded-full shadow-2xl z-50 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center cursor-pointer"
         aria-label="Scroll to top" style="width: 48px; height: 48px;">
         <svg class="w-6 h-6 text-white stroke-white" fill="none" stroke="white" stroke-width="3.5" viewBox="0 0 24 24"
             style="width: 24px; height: 24px; stroke: #ffffff !important;">
@@ -1160,23 +1193,54 @@
         </svg>
     </button>
 
-    <!-- HIGH-PERFORMANCE SCROLL ANIMATION SYSTEM -->
+    <!-- HIGH-PERFORMANCE SCROLL REVEAL & LOADER & CURSOR SCRIPTS -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const observer = new IntersectionObserver((entries) => {
+            // Page Loader
+            setTimeout(() => {
+                const loader = document.getElementById('page-loader');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 500);
+                }
+            }, 800);
+
+            // Custom Cursor Animation
+            const cursor = document.getElementById('custom-cursor');
+            if (window.innerWidth >= 768) {
+                let mouseX = 0, mouseY = 0;
+                let cursorX = 0, cursorY = 0;
+                window.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+                function animateCursor() {
+                    let dx = mouseX - cursorX;
+                    let dy = mouseY - cursorY;
+                    cursorX += dx * 0.25;
+                    cursorY += dy * 0.25;
+                    if (cursor) {
+                        cursor.style.transform = `translate3d(${cursorX - 4}px, ${cursorY - 4}px, 0)`;
+                    }
+                    requestAnimationFrame(animateCursor);
+                }
+                requestAnimationFrame(animateCursor);
+            }
+
+            // Section Reveal Observer
+            const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('opacity-100', 'translate-y-0');
-                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                        entry.target.classList.add('revealed');
                     }
                 });
             }, {
-                threshold: 0.1,
+                threshold: 0.15,
                 rootMargin: '0px 0px -50px 0px'
             });
 
-            document.querySelectorAll('.scroll-animate').forEach(el => {
-                observer.observe(el);
+            document.querySelectorAll('.section-reveal').forEach(el => {
+                revealObserver.observe(el);
             });
         });
     </script>
